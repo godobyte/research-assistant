@@ -36,19 +36,19 @@ def profit_eva_1(p1_za, p1_zb, p2_za, p2_zb):
     return pi1_za + pi1_zb
 
 def profit_eva_2(p1_za, p1_zb, p2_za, p2_zb):
-    pi2_za = 0
-    if p2_zb <= p1_zb + delta_zb:
-        pi2_za += (1 - beta_zb) * (p2_zb - c2)
-    if (p2_zb <= p1_zb + delta_zb) and (p2_zb <= p2_za):
-        pi2_za += beta_zb * (p2_zb - c2)
-    if (p2_za <= p1_zb + delta_zb) and (p2_za < p2_zb):
-        pi2_za += beta_zb * (p2_za - c2 - alpha2)
-
     pi2_zb = 0
+    if p2_zb <= p1_zb + delta_zb:
+        pi2_zb += (1 - beta_zb) * (p2_zb - c2)
+    if (p2_zb <= p1_zb + delta_zb) and (p2_zb <= p2_za):
+        pi2_zb += beta_zb * (p2_zb - c2)
+    if (p2_za <= p1_zb + delta_zb) and (p2_za < p2_zb):
+        pi2_zb += beta_zb * (p2_za - c2 - alpha2)
+
+    pi2_za = 0
     if p2_za < p1_za - delta_za:
-        pi2_zb += (1 - beta_za) * (p2_za - c2 - alpha2)
+        pi2_za += (1 - beta_za) * (p2_za - c2 - alpha2)
     if p2_za < min(p1_za - delta_za, p1_zb - delta_za):
-        pi2_zb += beta_za * (p2_za - c2 - alpha2)
+        pi2_za += beta_za * (p2_za - c2 - alpha2)
 
     return pi2_za + pi2_zb
 

@@ -17,6 +17,9 @@ c1 = 0
 c2 = 0
 alpha1 = 0
 alpha2 = 0
+# market size
+lambda_za = 0.5
+lambda_zb = 0.5
 
 def profit_eva_1(p1_za, p1_zb, p2_za, p2_zb):
     pi1_za = 0
@@ -33,7 +36,7 @@ def profit_eva_1(p1_za, p1_zb, p2_za, p2_zb):
     if p1_zb < min(p2_zb - delta_zb, p2_za - delta_zb):
         pi1_zb += beta_zb * (p1_zb - c1 - alpha1)
 
-    return pi1_za + pi1_zb
+    return lambda_za * pi1_za + lambda_zb * pi1_zb
 
 def profit_eva_2(p1_za, p1_zb, p2_za, p2_zb):
     pi2_zb = 0
@@ -50,7 +53,7 @@ def profit_eva_2(p1_za, p1_zb, p2_za, p2_zb):
     if p2_za < min(p1_za - delta_za, p1_zb - delta_za):
         pi2_za += beta_za * (p2_za - c2 - alpha2)
 
-    return pi2_za + pi2_zb
+    return lambda_za * pi2_za + lambda_zb * pi2_zb
 
 if __name__ == "__main__":
     import sys

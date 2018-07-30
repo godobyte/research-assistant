@@ -79,14 +79,12 @@ epsilon = 0.01
 def best_response_2(p1_za, p1_zb):
     p2_za = 0
     p2_zb = 0
-    print("break a")
 
     #Candidate 1
     if (p1_zb + delta_zb >= p1_za - delta_za) or (p1_za - delta_za <= c2 + alpha2):
         p2_za = min(p1_zb + delta_zb, 1)
         p2_zb = p2_za
         res = Response("candidate 1", profit_eva_2(p1_za, p1_zb, p2_za, p2_zb))
-    print("break b")
 
     #Candidate 2
     if p1_za - delta_za > c2 + alpha2:
@@ -94,8 +92,7 @@ def best_response_2(p1_za, p1_zb):
         p2_za = p1_za - delta_za - epsilon
         pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
         if pi_2 > res.pi:
-            res = update("candidate 2", pi_2)
-    print("break c")
+            res.update("candidate 2", pi_2)
 
     #Candidate 3
     if (p1_za > p1_zb) and (p1_zb - delta_za > c2 + alpha2):
@@ -103,23 +100,21 @@ def best_response_2(p1_za, p1_zb):
         p2_za = p1_zb - delta_za - epsilon
         pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
         if pi_2 > res.pi:
-            res = update("candidate 3", pi_2)
-    print("break d")
+            res.update("candidate 3", pi_2)
 
     print("When p1_za = %s, p1_zb = %s, p2_za = %s, p2_zb = %s, the best response is %s with pi2 = %s"
-    % (p1_za, pi1_zb, p2_za, p2_zb, res.name, res.pi))
-    return 0
+    % (p1_za, p1_zb, p2_za, p2_zb, res.name, res.pi))
 
 if __name__ == "__main__":
     import sys
     print(__doc__)
-    try:
-        print("Executing profit evalutation for Airline 1: %s" %
-        profit_eva_1(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])))
-        print("Executing profit evalutation for Airline 2: %s" %
-        profit_eva_2(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])))
-        print("Executing best Candidate for Airline 2 pricing \n")
-        best_response_2(int(sys.argv[1])), int(sys.argv[2])
-        print("Execution done")
-    except (IndexError, TypeError):
-        pass
+    # try:
+    print("Executing profit evalutation for Airline 1: %s" %
+    profit_eva_1(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])))
+    print("Executing profit evalutation for Airline 2: %s" %
+    profit_eva_2(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])))
+    print("Executing best Candidate for Airline 2 pricing")
+    best_response_2(int(sys.argv[1]), int(sys.argv[2]))
+    print("Execution done")
+    # except (IndexError, TypeError):
+        # pass

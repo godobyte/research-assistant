@@ -1,7 +1,7 @@
 '''
 Simulation - Python
 
-@author: bian
+@author: Bian
 
 @description: This is the simulation computation in Python.
 
@@ -9,12 +9,17 @@ Simulation - Python
 '''
 
 # temp setting for testing
+
+# proportion of strategic customers in the markets
 beta_za = 0
 beta_zb = 0
+# inconvenience cost associated with a connecting flight
 delta_za = 0
 delta_zb = 0
+# 1's cost for ZA, 2's cost for ZB
 c1 = 0
 c2 = 0
+# cost for AB and BA segments
 alpha1 = 0
 alpha2 = 0
 # market size

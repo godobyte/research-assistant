@@ -64,6 +64,35 @@ def profit_eva_2(p1_za, p1_zb, p2_za, p2_zb):
 
     return lambda_za * pi2_za + lambda_zb * pi2_zb
 
+###########################################################
+# Profit Maximization for Airline 2 given p1_za and p1_zb #
+###########################################################
+# step size
+interval = 0.01
+max = 1
+
+def simulation_a1(p2_za, p2_zb):
+    size = int(max / interval)
+    matrix = []
+    for s in range(size): matrix += [[0]*size]
+
+    for x in range(size):
+        for y in range(size):
+            matrix[x][y] = profit_eva_1(interval * x, interval * y, p2_za, p2_zb)
+
+    return matrix
+
+def simulation_a2(p1_za, p1_zb):
+    size = max / interval
+    matrix = []
+    for s in range(size): matrix += [[0]*size]
+
+    for x in range(size):
+        for y in range(size):
+            matrix[x][y] = profit_eva_2(p1_za, p1_zb, interval * x, interval * y)
+
+    return matrix
+
 ###########################
 # Airlines' Best Response #
 ###########################
@@ -77,7 +106,6 @@ class Response:
         self.pi = new_pi
 
 # Set up parameters
-interval = 0.01
 epsilon = 0.01
 
 # Fix pi_za and p1_zb to find p2_za and p2_zb to maximize pi2
@@ -121,5 +149,7 @@ if __name__ == "__main__":
     print("Executing best Candidate for Airline 2 pricing")
     best_response_2(int(sys.argv[1]), int(sys.argv[2]))
     print("Execution done")
+    print("Simulation for Airline 1 given p2_za p2_zb")
+    print("Airline 1 profit matrix =", simulation_a1(0.5, 0.2))
     # except (IndexError, TypeError):
         # pass

@@ -83,7 +83,7 @@ def simulation_a1(p2_za, p2_zb):
     return matrix
 
 def simulation_a2(p1_za, p1_zb):
-    size = max / interval
+    size = int(max / interval)
     matrix = []
     for s in range(size): matrix += [[0]*size]
 
@@ -109,9 +109,7 @@ class Response:
 epsilon = 0.01
 
 # Fix pi_za and p1_zb to find p2_za and p2_zb to maximize pi2
-def best_response_2(p1_za, p1_zb):
-    p2_za = 0
-    p2_zb = 0
+def best_response_2(p1_za, p1_zb, p2_za, p2_zb):
 
     #Candidate 1
     if (p1_zb + delta_zb >= p1_za - delta_za) or (p1_za - delta_za <= c2 + alpha2):

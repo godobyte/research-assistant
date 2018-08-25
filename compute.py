@@ -76,11 +76,17 @@ def simulation_a1(p2_za, p2_zb):
     matrix = []
     for s in range(size): matrix += [[0]*size]
 
+    best_res = Response(0, 0, 0)
     for x in range(size):
         for y in range(size):
             matrix[x][y] = profit_eva_1(interval * x, interval * y, p2_za, p2_zb)
+            if best_res.pi < matrix[x][y]:
+                best_res.update(matrix[x][y], interval * x, interval * y)
 
-    return matrix
+    print(best_res.pi)
+    print(best_res.p_za)
+    print(best_res.p_zb)
+    return best_res
 
 def simulation_a2(p1_za, p1_zb):
     size = int(max / interval)
@@ -97,44 +103,49 @@ def simulation_a2(p1_za, p1_zb):
 # Airlines' Best Response #
 ###########################
 class Response:
-    def __init__(self, name, pi):
-        self.name = name
+    def __init__(self, pi, p_za, p_zb):
+#         self.name = name
         self.pi = pi
+        self.p_za = p_za
+        self.p_zb = p_zb
 
-    def update(self, new_name, new_pi):
-        self.name = new_name
+    def update(self, new_pi, new_za, new_zb):
+#         self.name = new_name
         self.pi = new_pi
+        self.p_za = new_za
+        self.p_zb = new_zb
 
 # Set up parameters
 epsilon = 0.01
 
 # Fix pi_za and p1_zb to find p2_za and p2_zb to maximize pi2
-def best_response_2(p1_za, p1_zb, p2_za, p2_zb):
+# def best_response_2(p1_za, p1_zb, p2_za, p2_zb):
 
-    #Candidate 1
-    if (p1_zb + delta_zb >= p1_za - delta_za) or (p1_za - delta_za <= c2 + alpha2):
-        p2_za = min(p1_zb + delta_zb, 1)
-        p2_zb = p2_za
-        res = Response("candidate 1", profit_eva_2(p1_za, p1_zb, p2_za, p2_zb))
+#     #Candidate 1
+#     if (p1_zb + delta_zb >= p1_za - delta_za) or (p1_za - delta_za <= c2 + alpha2):
+#         p2_za = min(p1_zb + delta_zb, 1)
+#         p2_zb = p2_za
+#         res = Response("candidate 1", profit_eva_2(p1_za, p1_zb, p2_za, p2_zb))
 
-    #Candidate 2
-    if p1_za - delta_za > c2 + alpha2:
-        p2_zb = min(p1_zb + delta_zb, 1)
-        p2_za = p1_za - delta_za - epsilon
-        pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
-        if pi_2 > res.pi:
-            res.update("candidate 2", pi_2)
+#     #Candidate 2
+#     if p1_za - delta_za > c2 + alpha2:
+#         p2_zb = min(p1_zb + delta_zb, 1)
+#         p2_za = p1_za - delta_za - epsilon
+#         pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
+#         if pi_2 > res.pi:
+#             res.update("candidate 2", pi_2)
 
-    #Candidate 3
-    if (p1_za > p1_zb) and (p1_zb - delta_za > c2 + alpha2):
-        p2_zb = min(p1_zb + delta_zb, 1)
-        p2_za = p1_zb - delta_za - epsilon
-        pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
-        if pi_2 > res.pi:
-            res.update("candidate 3", pi_2)
+#     #Candidate 3
+#     if (p1_za > p1_zb) and (p1_zb - delta_za > c2 + alpha2):
+#         p2_zb = min(p1_zb + delta_zb, 1)
+#         p2_za = p1_zb - delta_za - epsilon
+#         pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
+#         if pi_2 > res.pi:
+#             res.update("candidate 3", pi_2)
 
-    print("When p1_za = %s, p1_zb = %s, p2_za = %s, p2_zb = %s, the best response is %s with pi2 = %s"
-    % (p1_za, p1_zb, p2_za, p2_zb, res.name, res.pi))
+#     print("When p1_za = %s, p1_zb = %s, p2_za = %s, p2_zb = %s, the best response is %s with pi2 = %s"
+#     % (p1_za, p1_zb, p2_za, p2_zb, res.name, res.pi))
+
 
 if __name__ == "__main__":
     import sys
@@ -144,8 +155,8 @@ if __name__ == "__main__":
     profit_eva_1(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])))
     print("Executing profit evalutation for Airline 2: %s" %
     profit_eva_2(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])))
-    print("Executing best Candidate for Airline 2 pricing")
-    best_response_2(int(sys.argv[1]), int(sys.argv[2]))
+    # print("Executing best Candidate for Airline 2 pricing")
+    # best_response_2(int(sys.argv[1]), int(sys.argv[2]))
     print("Execution done")
     print("Simulation for Airline 1 given p2_za p2_zb")
     print("Airline 1 profit matrix =", simulation_a1(0.5, 0.2))

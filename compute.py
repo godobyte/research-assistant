@@ -93,11 +93,18 @@ def simulation_a2(p1_za, p1_zb):
     matrix = []
     for s in range(size): matrix += [[0]*size]
 
+    best_res = Response(0, 0, 0)
     for x in range(size):
         for y in range(size):
             matrix[x][y] = profit_eva_2(p1_za, p1_zb, interval * x, interval * y)
+            if best_res.pi < matrix[x][y]:
+                best_res.update(matrix[x][y], interval * x, interval * y)
 
-    return matrix
+    print(best_res.pi)
+    print(best_res.p_za)
+    print(best_res.p_zb)
+    best_response_2(p1_za, p1_zb)
+    return best_res
 
 ###########################
 # Airlines' Best Response #
@@ -118,33 +125,44 @@ class Response:
 # Set up parameters
 epsilon = 0.01
 
-# Fix pi_za and p1_zb to find p2_za and p2_zb to maximize pi2
-# def best_response_2(p1_za, p1_zb, p2_za, p2_zb):
+#Fix pi_za and p1_zb to find p2_za and p2_zb to maximize pi2
+def best_response_2(p1_za, p1_zb):
+    print("Executing best_response_2")
 
-#     #Candidate 1
-#     if (p1_zb + delta_zb >= p1_za - delta_za) or (p1_za - delta_za <= c2 + alpha2):
-#         p2_za = min(p1_zb + delta_zb, 1)
-#         p2_zb = p2_za
-#         res = Response("candidate 1", profit_eva_2(p1_za, p1_zb, p2_za, p2_zb))
+    max_so_far = 0
+    #Candidate 1
+    if (p1_zb + delta_zb >= p1_za - delta_za) or (p1_za - delta_za <= c2 + alpha2):
+        p2_za = min(p1_zb + delta_zb, 1)
+        p2_zb = p2_za
+        max_so_far = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
+        print("candidate 1")
+        print(max_so_far)
+        print(p2_za)
+        print(p2_zb)
 
-#     #Candidate 2
-#     if p1_za - delta_za > c2 + alpha2:
-#         p2_zb = min(p1_zb + delta_zb, 1)
-#         p2_za = p1_za - delta_za - epsilon
-#         pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
-#         if pi_2 > res.pi:
-#             res.update("candidate 2", pi_2)
+    #Candidate 2
+    if p1_za - delta_za > c2 + alpha2:
+        p2_zb = min(p1_zb + delta_zb, 1)
+        p2_za = p1_za - delta_za - epsilon
+        pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
+        if pi_2 > max_so_far:
+            print("candidate 2")
+            print(pi_2)
+            print(p2_za)
+            print(p2_zb)
 
-#     #Candidate 3
-#     if (p1_za > p1_zb) and (p1_zb - delta_za > c2 + alpha2):
-#         p2_zb = min(p1_zb + delta_zb, 1)
-#         p2_za = p1_zb - delta_za - epsilon
-#         pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
-#         if pi_2 > res.pi:
-#             res.update("candidate 3", pi_2)
+    #Candidate 3
+    if (p1_za > p1_zb) and (p1_zb - delta_za > c2 + alpha2):
+        p2_zb = min(p1_zb + delta_zb, 1)
+        p2_za = p1_zb - delta_za - epsilon
+        pi_2 = profit_eva_2(p1_za, p1_zb, p2_za, p2_zb)
+        if pi_2 > max_so_far:
+            print("candidate 3")
+            print(pi_2)
+            print(p2_za)
+            print(p2_zb)
 
-#     print("When p1_za = %s, p1_zb = %s, p2_za = %s, p2_zb = %s, the best response is %s with pi2 = %s"
-#     % (p1_za, p1_zb, p2_za, p2_zb, res.name, res.pi))
+    print("Execution of best_response_2 done ")
 
 
 if __name__ == "__main__":
@@ -160,5 +178,8 @@ if __name__ == "__main__":
     print("Execution done")
     print("Simulation for Airline 1 given p2_za p2_zb")
     print("Airline 1 profit matrix =", simulation_a1(0.5, 0.2))
+
+    print("Simulation for Airline 2 given p1_za p1_zb")
+    print("Airline 2 profit matrix =", simulation_a2(0.5, 0.2))
     # except (IndexError, TypeError):
         # pass
